@@ -29,28 +29,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var wordToDisplay = "Nothing Was Tapped";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-      title: const Text("Home Page"),
-      actions: [
-        PopupMenuButton(
-          onSelected: (value) async {
-            var result = await _showDialog(context, value.toString());
-          },
-          itemBuilder: (context) {
-            return const [
-              PopupMenuItem(value: "Item 1", child: Text("Item 1")),
-              PopupMenuItem(value: "Item 2", child: Text("Item 2"))
-            ];
-          },
-        )
-      ],
-    ));
+      appBar: AppBar(
+        title: const Text("Home Page"),
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) async {
+              var result = await _showDialog(context, value.toString());
+              setState(() {
+                wordToDisplay =
+                    "$value was selected and the result was: $result";
+              });
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem(value: "Item 1", child: Text("Item 1")),
+                PopupMenuItem(value: "Item 2", child: Text("Item 2"))
+              ];
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: Text(wordToDisplay),
+      ),
+    );
   }
 }
 
