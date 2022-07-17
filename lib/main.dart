@@ -38,6 +38,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var wordToDisplay = "Nothing Was Tapped";
+  Widget widgetToDisplay = const Text(
+      "I am a widget that hasn't changed yet to a circular indicator");
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,11 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 wordToDisplay =
                     "$value was selected and the result was: $result";
+                if (result) {
+                  widgetToDisplay = const CircularProgressIndicator();
+                } else {
+                  widgetToDisplay = const Icon(Icons.adb);
+                }
               });
             },
             itemBuilder: (context) {
@@ -62,8 +69,13 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Text(wordToDisplay),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text(wordToDisplay)),
+          Center(child: widgetToDisplay),
+        ],
       ),
     );
   }
